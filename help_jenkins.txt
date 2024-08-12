@@ -1,3 +1,6 @@
+**********************
+	JUNKINS
+***************************
 
  LINK TO JENKINS INSTALLATION 
 	https://www.jenkins.io/doc/book/installing/linux/
@@ -9,3 +12,26 @@
 	sudo systemctl start jenkins
 	
  CHECK STATUS OF  JENKINS
+    sudo systemct status jenkins
+ 
+ 
+ *******************
+	GIT
+ ****************
+ CHECK CURRENT BRANCH
+	git branch
+ SET UPSTREAM BRANCH
+	Is used to push your local branch to the remote repository for the first time and establish a tracking connection 
+	git push --set-upstream 
+ ADD ALL CHANGES
+	git add .
+	
+ ADD SPECIFIC FILES
+	git add -m "commit message"
+ 
+ 
+ *************************
+  WSL
+ ********************
+ SHUTDOWN WSL
+	wsl --shotdown
