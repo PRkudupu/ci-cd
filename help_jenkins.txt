@@ -1,0 +1,11 @@
+
+ LINK TO JENKINS INSTALLATION 
+	https://www.jenkins.io/doc/book/installing/linux/
+	
+ ENABLE JENKINS
+	sudo systemctl enable jenkins
+
+ START JENKINS SERVICE
+	sudo systemctl start jenkins
+	
+ CHECK STATUS OF  JENKINS
