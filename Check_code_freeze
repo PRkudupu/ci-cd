@@ -1,0 +1,74 @@
+To check if there was a code freeze in a Bitbucket repository using the REST API, you typically need to look for branch restrictions or specific repository settings that indicate a code freeze. Bitbucket itself does not have a direct "code freeze" feature, so code freezes are usually enforced by branch restrictions or by checking commit activities.
+
+Here’s a general approach you could take:
+
+### 1. **Check Branch Permissions or Restrictions**
+   - Use the Bitbucket REST API to get the branch permissions or restrictions in the repository.
+   - If there are branch restrictions that prevent pushes or merges (e.g., requiring pull requests, requiring approvals), these may indicate a code freeze.
+
+   **Endpoint**: 
+   - To get branch restrictions: `GET /rest/branch-permissions/2.0/projects/{projectKey}/repos/{repositorySlug}/restrictions`
+   - To get branch permissions (Bitbucket Cloud): `GET /2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/`
+
+   **Example Request**:
+   ```bash
+   curl -u username:app_password \
+   https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/branch-restrictions/
+   ```
+
+   **Response**:
+   - The response will include details about restrictions on branches. If there’s a restriction that prevents commits or merges to a branch (especially to the main or release branches), this might indicate a code freeze.
+
+### 2. **Check for Commits**
+   - Another approach is to check the commits on a branch. If there have been no commits or merges for a significant period, this might suggest a code freeze.
+
+   **Endpoint**:
+   - To list commits on a branch: `GET /2.0/repositories/{workspace}/{repo_slug}/commits/{branch}`
+
+   **Example Request**:
+   ```bash
+   curl -u username:app_password \
+   https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/commits/{branch}
+   ```
+
+   **Response**:
+   - The response will include commit history. If no recent commits are present, it could imply a code freeze.
+
+### 3. **Check for Tags or Releases**
+   - Sometimes, a code freeze is marked by creating a specific tag or release in the repository. You can check for recent tags or releases to determine if a freeze has occurred.
+
+   **Endpoint**:
+   - To get tags: `GET /2.0/repositories/{workspace}/{repo_slug}/refs/tags`
+   - To get releases: `GET /2.0/repositories/{workspace}/{repo_slug}/downloads`
+
+   **Example Request**:
+   ```bash
+   curl -u username:app_password \
+   https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/refs/tags
+   ```
+
+   **Response**:
+   - This will list the tags, and you can check if there is a tag that might indicate a code freeze.
+
+### 4. **Check Pull Request Status**
+   - If a code freeze is implemented via a pull request process, you might check the status of pull requests.
+
+   **Endpoint**:
+   - To list open pull requests: `GET /2.0/repositories/{workspace}/{repo_slug}/pullrequests?state=OPEN`
+
+   **Example Request**:
+   ```bash
+   curl -u username:app_password \
+   https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}/pullrequests?state=OPEN
+   ```
+
+   **Response**:
+   - This will show the pull requests that are still open. A code freeze might be indicated by pull requests being stalled or by special labels or comments.
+
+### Summary
+- **Branch Permissions/Restrictions**: Check for restrictions that prevent changes to specific branches.
+- **Commit Activity**: Look for a lack of commits on critical branches.
+- **Tags/Releases**: Identify tags or releases indicating a freeze.
+- **Pull Requests**: Examine the status of open pull requests.
+
+By combining these methods, you can determine if a code freeze is in place. If your organization uses a specific convention for indicating a code freeze, you might need to customize these checks accordingly.
